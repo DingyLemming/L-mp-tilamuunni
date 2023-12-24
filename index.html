@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lämpötilamuunnin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    #converter {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<div id="converter">
+  <h2>Lämpötilamuunnin</h2>
+
+  <label for="conversionType">Valitse miten muunnat:</label>
+  <select id="conversionType">
+    <option value="celsiusToFahrenheit">Celsius -> Fahrenheit</option>
+    <option value="fahrenheitToCelsius">Fahrenheit -> Celsius</option>
+  </select>
+
+  <label for="temperature">Lämpötila:</label>
+  <input type="number" id="temperature" placeholder="Pistä lämpötila">
+
+  <button onclick="convertTemperature()">muunna</button>
+
+  <div>
+    <label for="decimalPlaces">Desimallit:</label>
+    <button onclick="setDecimalPlaces(1)">1</button>
+    <button onclick="setDecimalPlaces(2)">2</button>
+    <button onclick="setDecimalPlaces(3)">3</button>
+  </div>
+
+  <p id="result"></p>
+</div>
+
+<script>
+  var currentConversion = "celsiusToFahrenheit";
+  var decimalPlaces = 2;
+
+  function convertTemperature() {
+    var temperature = parseFloat(document.getElementById("temperature").value);
+
+    if (isNaN(temperature)) {
+      alert("Please enter a valid temperature.");
+      return;
+    }
+
+    var result;
+    if (currentConversion === "celsiusToFahrenheit") {
+      result = (temperature * 9/5) + 32;
+    } else {
+      result = (temperature - 32) * 5/9;
+    }
+
+    result = result.toFixed(decimalPlaces);
+    document.getElementById("result").innerHTML = temperature + " °" + (currentConversion === "celsiusToFahrenheit" ? "C" : "F") + " on " + result + " °" + (currentConversion === "celsiusToFahrenheit" ? "F" : "C");
+  }
+
+  function setDecimalPlaces(places) {
+    decimalPlaces = places;
+    convertTemperature();
+  }
+
+  document.getElementById("conversionType").addEventListener("change", function() {
+    currentConversion = this.value;
+    convertTemperature();
+  });
+</script>
+
+</body>
+</html>
